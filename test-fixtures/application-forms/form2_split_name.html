@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Careers - Split Name & Location Form</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .form-card {
+      background: #ffffff;
+      max-width: 680px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 32px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .row {
+      display: flex;
+      gap: 12px;
+    }
+    .col {
+      flex: 1;
+    }
+    .col-third {
+      flex: 0 0 31%;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    input:focus {
+      outline: none;
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+    .badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .btn {
+      background: #0284c7;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-card">
+    <div class="badge">Fixture #2: Split Names & Address Breakdown</div>
+    <h2>Horizon Global Dynamics</h2>
+    <p style="color:#64748b; margin-top:-8px; margin-bottom:24px;">Lead Platform Developer Application</p>
+
+    <form id="splitNameForm" onsubmit="event.preventDefault(); alert('Form submitted!');">
+      <!-- 3-part split name -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="first_name">First Name *</label>
+            <input type="text" id="first_name" name="first_name" autocomplete="given-name" required>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="middle_name">Middle Name</label>
+            <input type="text" id="middle_name" name="middle_name" autocomplete="additional-name">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="last_name">Last Name *</label>
+            <input type="text" id="last_name" name="last_name" autocomplete="family-name" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Details -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="candidate_email">Primary Email *</label>
+            <input type="email" id="candidate_email" name="candidate_email" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="mobile_number">Mobile Phone *</label>
+            <input type="tel" id="mobile_number" name="mobile_number" autocomplete="tel" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address Breakdown -->
+      <div class="form-group">
+        <label for="street_address">Street Address</label>
+        <input type="text" id="street_address" name="street_address" autocomplete="street-address">
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="city_name">City</label>
+            <input type="text" id="city_name" name="city_name" autocomplete="address-level2">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="state_province">State / Province</label>
+            <input type="text" id="state_province" name="state_province" autocomplete="address-level1">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="postal_zip">Zip / Postal Code</label>
+            <input type="text" id="postal_zip" name="postal_zip" autocomplete="postal-code">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="country_residence">Country</label>
+        <input type="text" id="country_residence" name="country_residence" autocomplete="country-name">
+      </div>
+
+      <!-- Professional Current Roles -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="present_employer">Current Employer / Company</label>
+            <input type="text" id="present_employer" name="present_employer">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="current_designation">Current Job Title / Designation</label>
+            <input type="text" id="current_designation" name="current_designation">
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Proceed to Next Step</button>
+    </form>
+  </div>
+</body>
+</html>

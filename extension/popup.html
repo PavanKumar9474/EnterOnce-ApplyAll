@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApplyOnce</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <div>
+          <h2>ApplyOnce</h2>
+          <span class="tagline">Universal Autofill</span>
+        </div>
+      </div>
+      <span class="badge" id="status-badge">Ready</span>
+    </header>
+
+    <!-- Profile Summary Card -->
+    <section class="profile-card">
+      <div class="profile-avatar" id="avatar-initial">A</div>
+      <div class="profile-info">
+        <h4 id="profile-name">Alex Taylor</h4>
+        <p id="profile-email">alex.taylor@example.com</p>
+        <span class="profile-role" id="profile-role">Senior Software Engineer</span>
+      </div>
+    </section>
+
+    <!-- Main Action Button -->
+    <button class="autofill-btn" id="autofill-btn">
+      <span class="btn-icon">⚡</span>
+      <span id="btn-text">Autofill Current Page</span>
+    </button>
+
+    <div class="status-msg" id="status-msg">
+      Click above to populate application fields on this tab.
+    </div>
+
+    <!-- Footer Links -->
+    <footer class="footer">
+      <button class="link-btn" id="open-dashboard-btn">
+        <span>🌐 Open Web Dashboard</span>
+      </button>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

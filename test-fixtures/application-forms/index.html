@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApplyOnce - Career Form Test Fixture Catalog</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .catalog-container {
+      max-width: 800px;
+      width: 100%;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .header h1 {
+      font-size: 28px;
+      color: #818cf8;
+      margin-bottom: 8px;
+    }
+    .header p {
+      color: #94a3b8;
+      font-size: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      border-color: #6366f1;
+      transform: translateY(-2px);
+    }
+    .card-info h3 {
+      font-size: 17px;
+      color: #ffffff;
+      margin: 0 0 6px 0;
+    }
+    .card-info p {
+      margin: 0;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+    .tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .tag {
+      background: #312e81;
+      color: #c7d2fe;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .btn-open {
+      background: #4f46e5;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .btn-open:hover {
+      background: #4338ca;
+    }
+  </style>
+</head>
+<body>
+  <div class="catalog-container">
+    <div class="header">
+      <h1>ApplyOnce Test Fixture Portal</h1>
+      <p>Local career application forms simulating real ATS systems for automated & manual autofill verification.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-info">
+          <h3>1. Standard Job Application</h3>
+          <p>Imitates Greenhouse / Workday single-page layout with legal name, contact, education, and skills.</p>
+          <div class="tags">
+            <span class="tag">Standard Fields</span>
+            <span class="tag">Full Name</span>
+            <span class="tag">Textarea</span>
+          </div>
+        </div>
+        <a href="form1_standard.html" class="btn-open">Open Form 1 &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-info">
+          <h3>2. Split Names & Address Breakdown</h3>
+          <p>Tests 3-part split names (First, Middle, Last) and complete address field decomposition.</p>
+          <div class="tags">
+            <span class="tag">Split Name</span>
+            <span class="tag">Address Breakdown</span>
+            <span class="tag">Employer Info</span>
+          </div>
+        </div>
+        <a href="form2_split_name.html" class="btn-open">Open Form 2 &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-info">
+          <h3>3. Dropdown & Selection Heavy Form</h3>
+          <p>Imitates Taleo / Lever questionnaires with select degree, graduation year, country, and radio groups.</p>
+          <div class="tags">
+            <span class="tag">&lt;select&gt; Dropdowns</span>
+            <span class="tag">Radios</span>
+            <span class="tag">Aliases</span>
+          </div>
+        </div>
+        <a href="form3_dropdown_heavy.html" class="btn-open">Open Form 3 &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-info">
+          <h3>4. Alternative Labels & CGPA Distinction</h3>
+          <p>Tests non-standard labels (E-Mail ID, Mobile No) and verifies CGPA vs Percentage field separation.</p>
+          <div class="tags">
+            <span class="tag">Alternative Labels</span>
+            <span class="tag">CGPA vs %</span>
+            <span class="tag">Overwrite Preservation</span>
+          </div>
+        </div>
+        <a href="form4_alternative_labels.html" class="btn-open">Open Form 4 &rarr;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-info">
+          <h3>5. Dynamic Framework-Controlled Form</h3>
+          <p>Simulates React state listeners and tests MutationObserver on dynamic field insertion.</p>
+          <div class="tags">
+            <span class="tag">React State Hook</span>
+            <span class="tag">MutationObserver</span>
+            <span class="tag">Dynamic Fields</span>
+          </div>
+        </div>
+        <a href="form5_dynamic_framework.html" class="btn-open">Open Form 5 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

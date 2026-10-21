@@ -1,0 +1,94 @@
+{
+  "name": "ApplyOnce — Workflow B: Application Tracking",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "applyonce-application-tracked",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-tracking",
+      "name": "Webhook: Application Tracked",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [240, 300],
+      "webhookId": "applyonce-application-tracked"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.headers['x-applyonce-secret'] }}",
+              "rightValue": "={{ $env.APPLYONCE_WEBHOOK_SECRET }}",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "leftValue": "={{ $json.body.event }}",
+              "rightValue": "APPLICATION_TRACKED",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "validate-tracking",
+      "name": "Validate Secret & Event",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body;\nconst data = body.data || {};\n\nif (!data.user_id || !data.url) {\n  throw new Error('Missing required fields: user_id or url');\n}\n\n// Validate URL format\nlet validUrl = false;\ntry {\n  new URL(data.url);\n  validUrl = true;\n} catch (e) {}\n\nif (!validUrl) {\n  throw new Error('Invalid URL format in payload');\n}\n\n// Prevent duplicate: check if last processed event timestamp is within 5 seconds\nconst ts = new Date(body.timestamp || Date.now()).getTime();\nconst now = Date.now();\nif (Math.abs(now - ts) > 300000) {\n  throw new Error('Event timestamp is too old (>5 min), rejecting to prevent duplicate replay');\n}\n\nreturn [{\n  json: {\n    event: body.event,\n    timestamp: body.timestamp,\n    user_id: data.user_id,\n    url: data.url,\n    filled_count: data.filled_count || 0,\n    skipped_count: data.skipped_count || 0,\n    processed_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "process-tracking",
+      "name": "Validate & Extract Event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"recorded\", \"event\": \"APPLICATION_TRACKED\" }"
+      },
+      "id": "respond-ok-tracking",
+      "name": "Respond 200 OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseCode": 401,
+        "responseBody": "={ \"error\": \"Unauthorized or invalid event\" }"
+      },
+      "id": "respond-reject",
+      "name": "Respond 401 Rejected",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [680, 420]
+    }
+  ],
+  "connections": {
+    "Webhook: Application Tracked": {
+      "main": [[{ "node": "Validate Secret & Event", "type": "main", "index": 0 }]]
+    },
+    "Validate Secret & Event": {
+      "main": [
+        [{ "node": "Validate & Extract Event", "type": "main", "index": 0 }],
+        [{ "node": "Respond 401 Rejected", "type": "main", "index": 0 }]
+      ]
+    },
+    "Validate & Extract Event": {
+      "main": [[{ "node": "Respond 200 OK", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "applyonce" }]
+}

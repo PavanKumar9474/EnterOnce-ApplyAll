@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Portal - Standard Job Application</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f3f4f6;
+      color: #1f2937;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .form-container {
+      background: #ffffff;
+      max-width: 650px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+    .company-header {
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    .company-header h1 {
+      font-size: 24px;
+      color: #111827;
+      margin-bottom: 6px;
+    }
+    .job-title {
+      color: #4f46e5;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #374151;
+      margin: 20px 0 12px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea, select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+    .btn-submit {
+      background-color: #4f46e5;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+    .btn-submit:hover {
+      background-color: #4338ca;
+    }
+    .test-badge {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #4338ca;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="test-badge">Fixture #1: Standard Form (Workday / Greenhouse Style)</div>
+    
+    <header class="company-header">
+      <h1>Starlight Cloud Inc.</h1>
+      <div class="job-title">Senior Full Stack Engineer &bull; San Francisco, CA (Hybrid)</div>
+    </header>
+
+    <form id="standardApplicationForm" onsubmit="event.preventDefault(); alert('Application submitted successfully!');">
+      <div class="section-title">Personal Information</div>
+
+      <div class="form-group">
+        <label for="fullName">Full Legal Name *</label>
+        <input type="text" id="fullName" name="applicant_full_name" autocomplete="name" placeholder="e.g. Jane Doe" required>
+      </div>
+
+      <div class="form-group">
+        <label for="emailAddress">Email Address *</label>
+        <input type="email" id="emailAddress" name="applicant_email" autocomplete="email" placeholder="jane.doe@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone / Contact Number *</label>
+        <input type="tel" id="phoneNumber" name="applicant_phone" autocomplete="tel" placeholder="+1 (555) 000-0000" required>
+      </div>
+
+      <div class="form-group">
+        <label for="linkedinUrl">LinkedIn Profile URL</label>
+        <input type="url" id="linkedinUrl" name="linkedin_profile" placeholder="https://linkedin.com/in/username">
+      </div>
+
+      <div class="form-group">
+        <label for="githubUrl">GitHub / Portfolio URL</label>
+        <input type="url" id="githubUrl" name="github_profile" placeholder="https://github.com/username">
+      </div>
+
+      <div class="section-title">Education & Experience</div>
+
+      <div class="form-group">
+        <label for="university">College or University *</label>
+        <input type="text" id="university" name="university_name" placeholder="e.g. Stanford University">
+      </div>
+
+      <div class="form-group">
+        <label for="degree">Highest Degree *</label>
+        <input type="text" id="degree" name="degree_title" placeholder="e.g. Bachelor of Science">
+      </div>
+
+      <div class="form-group">
+        <label for="major">Major / Field of Study</label>
+        <input type="text" id="major" name="field_of_study" placeholder="e.g. Computer Science">
+      </div>
+
+      <div class="form-group">
+        <label for="experienceYears">Years of Relevant Experience</label>
+        <input type="text" id="experienceYears" name="years_of_experience" placeholder="e.g. 3">
+      </div>
+
+      <div class="form-group">
+        <label for="keySkills">Key Skills & Technologies</label>
+        <textarea id="keySkills" name="skills_summary" rows="3" placeholder="React, Node.js, Python, PostgreSQL"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="resumeUpload">Resume / CV *</label>
+        <input type="file" id="resumeUpload" name="resume_file" accept=".pdf,.doc,.docx">
+      </div>
+
+      <button type="submit" class="btn-submit">Submit Application</button>
+    </form>
+  </div>
+</body>
+</html>

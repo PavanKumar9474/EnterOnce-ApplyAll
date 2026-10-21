@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Systems - Alternate Labels & Academic Scoring</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #fdf2f8;
+      color: #1e293b;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .form-box {
+      background: #ffffff;
+      max-width: 650px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 32px;
+      border: 1px solid #fbcfe8;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #831843;
+      margin-bottom: 6px;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid #f472b6;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .badge {
+      background: #fce7f3;
+      color: #9d174d;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .row {
+      display: flex;
+      gap: 12px;
+    }
+    .col {
+      flex: 1;
+    }
+    .btn {
+      background: #db2777;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <div class="badge">Fixture #4: Alternative Labels & GPA vs Percentage Distinction</div>
+    <h2>Nexus Quantum Labs</h2>
+    <p style="color:#701a75; margin-top:-6px; margin-bottom:24px;">Research Analyst Intern (Campus / Freshers)</p>
+
+    <form id="alternateLabelsForm" onsubmit="event.preventDefault(); alert('Saved!');">
+      <div class="form-group">
+        <label for="candName">Candidate Full Name *</label>
+        <input type="text" id="candName" name="cand_name">
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="emailContact">E-Mail ID *</label>
+            <input type="text" id="emailContact" name="email_contact">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="cellNumber">Cellular / Mobile No. *</label>
+            <input type="text" id="cellNumber" name="cell_number">
+          </div>
+        </div>
+      </div>
+
+      <!-- Distinction between CGPA and Percentage -->
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="cgpaScore">Cumulative GPA / CGPA (e.g. 3.8 or 8.5)</label>
+            <input type="text" id="cgpaScore" name="cgpa_score">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="percentScore">Aggregate % Marks / Percentage</label>
+            <input type="text" id="percentScore" name="percent_score">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="personalSite">Personal Portfolio / Website</label>
+        <input type="text" id="personalSite" name="portfolio_site">
+      </div>
+
+      <!-- Test field with pre-existing user content to verify non-overwrite behavior -->
+      <div class="form-group">
+        <label for="existingNote">City (Pre-existing test value)</label>
+        <input type="text" id="existingNote" name="current_city" value="Pre-filled City Value">
+      </div>
+
+      <button type="submit" class="btn">Send Profile</button>
+    </form>
+  </div>
+</body>
+</html>
