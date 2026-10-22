@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Tech Careers - Repeated Education & Experience</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .form-container {
+      background: #1e293b;
+      max-width: 720px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 32px;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+    .badge {
+      background: #312e81;
+      color: #c7d2fe;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 24px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #334155;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #818cf8;
+    }
+    .btn-add {
+      background: #4f46e5;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-add:hover {
+      background: #4338ca;
+    }
+    .record-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .record-header {
+      font-size: 13px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 12px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .form-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    input, select, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 10px;
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      color: #f8fafc;
+      font-size: 13px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #818cf8;
+      box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.25);
+    }
+    .btn-submit {
+      background: #10b981;
+      color: #ffffff;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="badge">Fixture #6: Multi-Record Repeated Sections (Dynamic Education & Experience)</div>
+    <h1 style="margin: 0 0 6px 0; font-size: 22px;">Cognitive Cloud Platform</h1>
+    <p style="color: #94a3b8; margin: 0 0 20px 0; font-size: 14px;">Senior Systems Engineer &bull; San Francisco / Hybrid</p>
+
+    <form id="multiRecordForm" onsubmit="event.preventDefault(); alert('Application submitted successfully!');">
+      <!-- Candidate Basic Identity -->
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="fullName">Candidate Full Name *</label>
+          <input type="text" id="fullName" name="applicant_fullname" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="applicant_email" required>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="phone">Contact Mobile *</label>
+          <input type="tel" id="phone" name="applicant_phone" required>
+        </div>
+        <div class="form-group">
+          <label for="linkedin">LinkedIn Profile URL</label>
+          <input type="url" id="linkedin" name="applicant_linkedin">
+        </div>
+      </div>
+
+      <!-- ── SECTION: REPEATED EDUCATION ── -->
+      <div class="section-header">
+        <div class="section-title">Education History (Multi-Record)</div>
+        <button type="button" id="btnAddEdu" class="btn-add">+ Add Another Education</button>
+      </div>
+
+      <div id="educationContainer">
+        <!-- Initial Section 1 -->
+        <div class="record-card education-section" data-section="education">
+          <div class="record-header">Education Record #1</div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="edu_inst_1">University / Board *</label>
+              <input type="text" id="edu_inst_1" name="university_1" placeholder="e.g. Stanford University">
+            </div>
+            <div class="form-group">
+              <label for="edu_degree_1">Degree / Qualification *</label>
+              <input type="text" id="edu_degree_1" name="degree_1" placeholder="e.g. B.Tech / B.S.">
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="form-group">
+              <label for="edu_major_1">Major / Branch</label>
+              <input type="text" id="edu_major_1" name="major_1" placeholder="Computer Science">
+            </div>
+            <div class="form-group">
+              <label for="edu_year_1">Graduation Year</label>
+              <input type="text" id="edu_year_1" name="grad_year_1" placeholder="2023">
+            </div>
+            <div class="form-group">
+              <label for="edu_cgpa_1">CGPA / Percentage</label>
+              <input type="text" id="edu_cgpa_1" name="cgpa_1" placeholder="3.85 or 8.9">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION: REPEATED EXPERIENCE ── -->
+      <div class="section-header">
+        <div class="section-title">Work Experience (Multi-Record)</div>
+        <button type="button" id="btnAddExp" class="btn-add">+ Add Another Experience</button>
+      </div>
+
+      <div id="experienceContainer">
+        <!-- Initial Section 1 -->
+        <div class="record-card experience-section" data-section="experience">
+          <div class="record-header">Work Experience Record #1</div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="exp_company_1">Employer / Company Name *</label>
+              <input type="text" id="exp_company_1" name="company_1" placeholder="e.g. Starlight Cloud Inc.">
+            </div>
+            <div class="form-group">
+              <label for="exp_title_1">Job Title / Designation *</label>
+              <input type="text" id="exp_title_1" name="title_1" placeholder="e.g. Full Stack Engineer">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="exp_start_1">Start Date</label>
+              <input type="text" id="exp_start_1" name="start_date_1" placeholder="e.g. 2023-01">
+            </div>
+            <div class="form-group">
+              <label for="exp_end_1">End Date</label>
+              <input type="text" id="exp_end_1" name="end_date_1" placeholder="e.g. Present">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exp_desc_1">Responsibilities & Achievements</label>
+            <textarea id="exp_desc_1" name="responsibilities_1" rows="2" placeholder="Key contributions..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Submit Complete Application</button>
+    </form>
+  </div>
+
+  <script>
+    let eduCount = 1;
+    document.getElementById("btnAddEdu").addEventListener("click", () => {
+      eduCount++;
+      const container = document.getElementById("educationContainer");
+      const div = document.createElement("div");
+      div.className = "record-card education-section";
+      div.setAttribute("data-section", "education");
+      div.innerHTML = `
+        <div class="record-header">Education Record #${eduCount}</div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="edu_inst_${eduCount}">University / Board *</label>
+            <input type="text" id="edu_inst_${eduCount}" name="university_${eduCount}" placeholder="Institution name">
+          </div>
+          <div class="form-group">
+            <label for="edu_degree_${eduCount}">Degree / Qualification *</label>
+            <input type="text" id="edu_degree_${eduCount}" name="degree_${eduCount}" placeholder="Degree name">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="edu_major_${eduCount}">Major / Branch</label>
+            <input type="text" id="edu_major_${eduCount}" name="major_${eduCount}" placeholder="Major">
+          </div>
+          <div class="form-group">
+            <label for="edu_year_${eduCount}">Graduation Year</label>
+            <input type="text" id="edu_year_${eduCount}" name="grad_year_${eduCount}" placeholder="Year">
+          </div>
+          <div class="form-group">
+            <label for="edu_cgpa_${eduCount}">CGPA / Percentage</label>
+            <input type="text" id="edu_cgpa_${eduCount}" name="cgpa_${eduCount}" placeholder="Score">
+          </div>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+    let expCount = 1;
+    document.getElementById("btnAddExp").addEventListener("click", () => {
+      expCount++;
+      const container = document.getElementById("experienceContainer");
+      const div = document.createElement("div");
+      div.className = "record-card experience-section";
+      div.setAttribute("data-section", "experience");
+      div.innerHTML = `
+        <div class="record-header">Work Experience Record #${expCount}</div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="exp_company_${expCount}">Employer / Company Name *</label>
+            <input type="text" id="exp_company_${expCount}" name="company_${expCount}" placeholder="Company name">
+          </div>
+          <div class="form-group">
+            <label for="exp_title_${expCount}">Job Title / Designation *</label>
+            <input type="text" id="exp_title_${expCount}" name="title_${expCount}" placeholder="Title">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="exp_start_${expCount}">Start Date</label>
+            <input type="text" id="exp_start_${expCount}" name="start_date_${expCount}" placeholder="Start date">
+          </div>
+          <div class="form-group">
+            <label for="exp_end_${expCount}">End Date</label>
+            <input type="text" id="exp_end_${expCount}" name="end_date_${expCount}" placeholder="End date">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exp_desc_${expCount}">Responsibilities & Achievements</label>
+          <textarea id="exp_desc_${expCount}" name="responsibilities_${expCount}" rows="2" placeholder="Key contributions..."></textarea>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>

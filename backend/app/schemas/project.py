@@ -1,6 +1,6 @@
 from typing import Optional
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class ProjectBase(BaseModel):
@@ -10,6 +10,10 @@ class ProjectBase(BaseModel):
     url: Optional[str] = None
     github_url: Optional[str] = None
     description: Optional[str] = None
+    responsibilities: Optional[str] = None
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
+    is_team_project: bool = False
     verification_status: Optional[str] = "User Verified"
 
 
@@ -24,6 +28,10 @@ class ProjectUpdate(BaseModel):
     url: Optional[str] = None
     github_url: Optional[str] = None
     description: Optional[str] = None
+    responsibilities: Optional[str] = None
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
+    is_team_project: Optional[bool] = None
     verification_status: Optional[str] = None
 
 
@@ -32,5 +40,4 @@ class ProjectResponse(ProjectBase):
     profile_id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

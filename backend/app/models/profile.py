@@ -18,14 +18,18 @@ class CandidateProfile(Base):
     first_name = Column(String(100), nullable=True)
     middle_name = Column(String(100), nullable=True)
     last_name = Column(String(100), nullable=True)
+    preferred_name = Column(String(100), nullable=True)
     full_name = Column(String(255), nullable=True)
     email = Column(String(255), nullable=True)
+    country_code = Column(String(10), default="+1", nullable=True)
     phone = Column(String(50), nullable=True)
+    date_of_birth = Column(String(30), nullable=True)
     address = Column(String(255), nullable=True)
     city = Column(String(100), nullable=True)
     state = Column(String(100), nullable=True)
     postal_code = Column(String(30), nullable=True)
     country = Column(String(100), nullable=True)
+    photo_url = Column(String(500), nullable=True)
 
     # Online profiles
     linkedin = Column(String(255), nullable=True)
@@ -35,8 +39,10 @@ class CandidateProfile(Base):
     # Preferences & work eligibility
     notice_period = Column(String(50), nullable=True)
     work_authorization = Column(String(50), nullable=True)
+    visa_status = Column(String(100), nullable=True)
     willingness_to_relocate = Column(String(50), nullable=True)
     preferred_location = Column(String(255), nullable=True)
+    preferred_work_mode = Column(String(50), default="Hybrid", nullable=True) # Remote, Hybrid, Onsite
     experience_years = Column(String(30), nullable=True)
     bio = Column(Text, nullable=True)
 
@@ -52,3 +58,7 @@ class CandidateProfile(Base):
     experiences = relationship("ExperienceRecord", back_populates="profile", cascade="all, delete-orphan")
     skills = relationship("SkillRecord", back_populates="profile", cascade="all, delete-orphan")
     projects = relationship("ProjectRecord", back_populates="profile", cascade="all, delete-orphan")
+    certifications = relationship("CertificationRecord", back_populates="profile", cascade="all, delete-orphan")
+    languages = relationship("LanguageRecord", back_populates="profile", cascade="all, delete-orphan")
+    preference = relationship("JobPreferenceRecord", back_populates="profile", uselist=False, cascade="all, delete-orphan")
+    saved_answers = relationship("SavedAnswerRecord", back_populates="profile", cascade="all, delete-orphan")

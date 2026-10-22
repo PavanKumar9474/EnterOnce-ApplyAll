@@ -14,15 +14,21 @@ class EducationRecord(Base):
     id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, ForeignKey("candidate_profiles.id", ondelete="CASCADE"), nullable=False, index=True)
 
-    qualification = Column(String(100), nullable=True) # e.g. Bachelors Degree, Masters, High School
-    degree = Column(String(150), nullable=True)        # e.g. Bachelor of Science, B.Tech
+    qualification = Column(String(100), nullable=True) # e.g. Bachelors Degree, Masters, High School, Diploma
+    degree = Column(String(150), nullable=True)        # e.g. B.Tech, B.E., B.Sc., B.Com., M.Tech, MCA
     major = Column(String(150), nullable=True)         # e.g. Computer Science, Mechanical Eng
-    institution = Column(String(255), nullable=True)   # e.g. Stanford University
-    graduation_year = Column(String(10), nullable=True) # e.g. 2024
-    cgpa = Column(String(20), nullable=True)           # e.g. 3.85
+    branch = Column(String(150), nullable=True)        # e.g. Information Technology, AI & Data Science
+    institution = Column(String(255), nullable=True)   # e.g. Stanford University / Anna University
+    college_name = Column(String(255), nullable=True)  # e.g. College of Engineering, Guindy
+    start_year = Column(String(20), nullable=True)     # e.g. 2020 or Aug 2020
+    graduation_year = Column(String(20), nullable=True) # e.g. 2024 or May 2024
+    expected_graduation_date = Column(String(30), nullable=True) # e.g. May 2025
+    cgpa = Column(String(20), nullable=True)           # e.g. 3.85 or 8.9
     percentage = Column(String(20), nullable=True)     # e.g. 92%
-    grading_scale = Column(String(20), nullable=True)  # e.g. 4.0, 10.0
+    grading_scale = Column(String(20), default="10.0", nullable=True)  # e.g. 4.0, 10.0, 100%
     backlogs = Column(String(10), default="0", nullable=True)
+    coursework = Column(String(500), nullable=True)    # e.g. Data Structures, Operating Systems, DBMS
+    achievements = Column(String(500), nullable=True)  # e.g. Dean's List, Gold Medalist
     verification_status = Column(String(50), default="User Verified", nullable=False)
 
     created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)

@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Text, Boolean, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 
@@ -20,6 +20,10 @@ class ProjectRecord(Base):
     url = Column(String(255), nullable=True)
     github_url = Column(String(255), nullable=True)
     description = Column(Text, nullable=True)
+    responsibilities = Column(Text, nullable=True)
+    start_date = Column(String(30), nullable=True)
+    end_date = Column(String(30), nullable=True)
+    is_team_project = Column(Boolean, default=False, nullable=False)
     verification_status = Column(String(50), default="User Verified", nullable=False)
 
     created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)

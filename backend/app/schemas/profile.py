@@ -1,31 +1,41 @@
-from typing import Optional, List, Dict, Any
+from typing import Optional, List
 from datetime import datetime
-from pydantic import BaseModel, EmailStr
-from app.schemas.education import EducationResponse, EducationCreate
-from app.schemas.experience import ExperienceResponse, ExperienceCreate
-from app.schemas.skill import SkillResponse, SkillCreate
-from app.schemas.project import ProjectResponse, ProjectCreate
+from pydantic import BaseModel, ConfigDict
+from app.schemas.education import EducationResponse
+from app.schemas.experience import ExperienceResponse
+from app.schemas.skill import SkillResponse
+from app.schemas.project import ProjectResponse
+from app.schemas.certification import CertificationResponse
+from app.schemas.language import LanguageResponse
+from app.schemas.job_preference import JobPreferenceResponse
+from app.schemas.saved_answer import SavedAnswerResponse
 
 
 class ProfileBase(BaseModel):
     first_name: Optional[str] = None
     middle_name: Optional[str] = None
     last_name: Optional[str] = None
+    preferred_name: Optional[str] = None
     full_name: Optional[str] = None
-    email: Optional[EmailStr] = None
+    email: Optional[str] = None
+    country_code: Optional[str] = "+1"
     phone: Optional[str] = None
+    date_of_birth: Optional[str] = None
     address: Optional[str] = None
     city: Optional[str] = None
     state: Optional[str] = None
     postal_code: Optional[str] = None
     country: Optional[str] = None
+    photo_url: Optional[str] = None
     linkedin: Optional[str] = None
     github: Optional[str] = None
     portfolio: Optional[str] = None
     notice_period: Optional[str] = None
     work_authorization: Optional[str] = None
+    visa_status: Optional[str] = None
     willingness_to_relocate: Optional[str] = None
     preferred_location: Optional[str] = None
+    preferred_work_mode: Optional[str] = "Hybrid"
     experience_years: Optional[str] = None
     bio: Optional[str] = None
     verification_status: Optional[str] = "User Verified"
@@ -45,8 +55,7 @@ class ProfileResponse(ProfileBase):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class FullProfileResponse(ProfileBase):
@@ -59,6 +68,9 @@ class FullProfileResponse(ProfileBase):
     experiences: List[ExperienceResponse] = []
     skills: List[SkillResponse] = []
     projects: List[ProjectResponse] = []
+    certifications: List[CertificationResponse] = []
+    languages: List[LanguageResponse] = []
+    preference: Optional[JobPreferenceResponse] = None
+    saved_answers: List[SavedAnswerResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

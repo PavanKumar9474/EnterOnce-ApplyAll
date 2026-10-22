@@ -123,6 +123,45 @@ export const api = {
     }),
     deleteProject: (id) => request(`/profile/projects/${id}`, {
       method: 'DELETE'
+    }),
+    addCertification: (data) => request('/profile/certifications', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }),
+    updateCertification: (id, data) => request(`/profile/certifications/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    }),
+    deleteCertification: (id) => request(`/profile/certifications/${id}`, {
+      method: 'DELETE'
+    }),
+    addLanguage: (data) => request('/profile/languages', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }),
+    updateLanguage: (id, data) => request(`/profile/languages/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    }),
+    deleteLanguage: (id) => request(`/profile/languages/${id}`, {
+      method: 'DELETE'
+    }),
+    getPreferences: () => request('/profile/preferences'),
+    updatePreferences: (data) => request('/profile/preferences', {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    }),
+    getSavedAnswers: (company) => request(company ? `/profile/saved-answers?company=${encodeURIComponent(company)}` : '/profile/saved-answers'),
+    addSavedAnswer: (data) => request('/profile/saved-answers', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }),
+    updateSavedAnswer: (id, data) => request(`/profile/saved-answers/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    }),
+    deleteSavedAnswer: (id) => request(`/profile/saved-answers/${id}`, {
+      method: 'DELETE'
     })
   },
 

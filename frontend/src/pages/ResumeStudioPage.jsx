@@ -30,8 +30,9 @@ export default function ResumeStudioPage({ addToast, onProfileRefresh }) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
-      addToast('Only PDF resumes are supported.', 'error');
+    const fn = file.name.toLowerCase();
+    if (!fn.endsWith('.pdf') && !fn.endsWith('.docx') && !fn.endsWith('.doc')) {
+      addToast('Only PDF and DOCX resumes are supported.', 'error');
       return;
     }
 
@@ -46,7 +47,7 @@ export default function ResumeStudioPage({ addToast, onProfileRefresh }) {
     try {
       const result = await api.resumes.upload(file);
       setExtractionResult(result);
-      addToast('Resume uploaded and text extracted with PyMuPDF!', 'success');
+      addToast('Resume uploaded and text parsed successfully!', 'success');
       loadResumes();
     } catch (err) {
       addToast(err.message || 'Failed to process resume.', 'error');
@@ -106,18 +107,18 @@ export default function ResumeStudioPage({ addToast, onProfileRefresh }) {
           </div>
 
           <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>
-            Upload PDF Candidate Resume
+            Upload PDF or DOCX Candidate Resume
           </h3>
           <p style={{ color: '#94a3b8', fontSize: '14px', maxWidth: '420px', margin: '8px auto 20px auto' }}>
-            Supports standard PDF resumes up to 10MB. Text is parsed into candidate name, contact info, education, skills, and projects.
+            Supports PDF and DOCX resumes up to 10MB. Text is parsed into candidate name, contact info, education, skills, and projects.
           </p>
 
           <label className="btn btn-primary" style={{ display: 'inline-flex', cursor: 'pointer' }}>
             <FileText size={16} />
-            <span>{uploading ? 'Extracting with PyMuPDF...' : 'Select PDF Resume'}</span>
+            <span>{uploading ? 'Extracting text...' : 'Select PDF or DOCX Resume'}</span>
             <input
               type="file"
-              accept=".pdf,application/pdf"
+              accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               disabled={uploading}
               onChange={handleFileUpload}
               style={{ display: 'none' }}

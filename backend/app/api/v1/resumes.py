@@ -14,7 +14,7 @@ from app.models.skill import SkillRecord
 from app.models.project import ProjectRecord
 from app.models.resume import ResumeRecord
 from app.schemas.resume import ResumeResponse, ResumeExtractionResult
-from app.services.resume_parser import extract_text_from_pdf, parse_resume_text
+from app.services.resume_parser import extract_text_from_file, parse_resume_text
 from app.services.profile_service import log_audit
 
 router = APIRouter(prefix="/resumes", tags=["Resumes & Extraction"])
@@ -33,13 +33,14 @@ async def upload_resume(
     db: Session = Depends(get_db)
 ):
     """
-    Uploads a candidate PDF resume, validates size and type, extracts text using PyMuPDF,
+    Uploads a candidate PDF or DOCX resume, validates size and type, extracts text,
     and returns parsed profile entities for review before merging.
     """
-    if not file.filename.lower().endswith(".pdf"):
+    fn_lower = file.filename.lower()
+    if not (fn_lower.endswith(".pdf") or fn_lower.endswith(".docx") or fn_lower.endswith(".doc")):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Only PDF format resumes are supported."
+            detail="Only PDF and DOCX format resumes are supported."
         )
 
     file_bytes = await file.read()
@@ -59,9 +60,9 @@ async def upload_resume(
     with open(file_path, "wb") as f:
         f.write(file_bytes)
 
-    # Extract text using PyMuPDF
+    # Extract text from PDF or DOCX
     try:
-        extracted_text = extract_text_from_pdf(file_bytes)
+        extracted_text = extract_text_from_file(file_bytes, file.filename)
     except Exception as e:
         extracted_text = ""
 

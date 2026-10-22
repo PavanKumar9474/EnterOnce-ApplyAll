@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
@@ -9,11 +9,19 @@ from app.models.education import EducationRecord
 from app.models.experience import ExperienceRecord
 from app.models.skill import SkillRecord
 from app.models.project import ProjectRecord
+from app.models.certification import CertificationRecord
+from app.models.language import LanguageRecord
+from app.models.job_preference import JobPreferenceRecord
+from app.models.saved_answer import SavedAnswerRecord
 from app.schemas.profile import FullProfileResponse, ProfileUpdate, ProfileResponse
 from app.schemas.education import EducationCreate, EducationResponse
 from app.schemas.experience import ExperienceCreate, ExperienceResponse
 from app.schemas.skill import SkillCreate, SkillResponse
 from app.schemas.project import ProjectCreate, ProjectResponse
+from app.schemas.certification import CertificationCreate, CertificationUpdate, CertificationResponse
+from app.schemas.language import LanguageCreate, LanguageUpdate, LanguageResponse
+from app.schemas.job_preference import JobPreferenceCreate, JobPreferenceUpdate, JobPreferenceResponse
+from app.schemas.saved_answer import SavedAnswerCreate, SavedAnswerUpdate, SavedAnswerResponse
 from app.services.profile_service import log_audit
 
 router = APIRouter(prefix="/profile", tags=["Candidate Profile"])
@@ -273,3 +281,232 @@ def delete_project(
     db.delete(proj)
     db.commit()
     return {"message": "Project deleted."}
+
+
+# --- Certifications ---
+
+@router.post("/certifications", response_model=CertificationResponse, status_code=status.HTTP_201_CREATED)
+def add_certification(
+    cert_in: CertificationCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    cert = CertificationRecord(profile_id=profile.id, **cert_in.model_dump())
+    db.add(cert)
+    db.commit()
+    db.refresh(cert)
+    return cert
+
+
+@router.put("/certifications/{cert_id}", response_model=CertificationResponse)
+def update_certification(
+    cert_id: int,
+    cert_in: CertificationUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    cert = db.query(CertificationRecord).filter(
+        CertificationRecord.id == cert_id,
+        CertificationRecord.profile_id == profile.id
+    ).first()
+    if not cert:
+        raise HTTPException(status_code=404, detail="Certification not found.")
+
+    for field, val in cert_in.model_dump(exclude_unset=True).items():
+        setattr(cert, field, val)
+    db.commit()
+    db.refresh(cert)
+    return cert
+
+
+@router.delete("/certifications/{cert_id}")
+def delete_certification(
+    cert_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    cert = db.query(CertificationRecord).filter(
+        CertificationRecord.id == cert_id,
+        CertificationRecord.profile_id == profile.id
+    ).first()
+    if not cert:
+        raise HTTPException(status_code=404, detail="Certification not found.")
+    db.delete(cert)
+    db.commit()
+    return {"message": "Certification deleted."}
+
+
+# --- Languages ---
+
+@router.post("/languages", response_model=LanguageResponse, status_code=status.HTTP_201_CREATED)
+def add_language(
+    lang_in: LanguageCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    lang = LanguageRecord(profile_id=profile.id, **lang_in.model_dump())
+    db.add(lang)
+    db.commit()
+    db.refresh(lang)
+    return lang
+
+
+@router.put("/languages/{lang_id}", response_model=LanguageResponse)
+def update_language(
+    lang_id: int,
+    lang_in: LanguageUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    lang = db.query(LanguageRecord).filter(
+        LanguageRecord.id == lang_id,
+        LanguageRecord.profile_id == profile.id
+    ).first()
+    if not lang:
+        raise HTTPException(status_code=404, detail="Language not found.")
+
+    for field, val in lang_in.model_dump(exclude_unset=True).items():
+        setattr(lang, field, val)
+    db.commit()
+    db.refresh(lang)
+    return lang
+
+
+@router.delete("/languages/{lang_id}")
+def delete_language(
+    lang_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    lang = db.query(LanguageRecord).filter(
+        LanguageRecord.id == lang_id,
+        LanguageRecord.profile_id == profile.id
+    ).first()
+    if not lang:
+        raise HTTPException(status_code=404, detail="Language not found.")
+    db.delete(lang)
+    db.commit()
+    return {"message": "Language deleted."}
+
+
+# --- Job Preferences ---
+
+@router.get("/preferences", response_model=Optional[JobPreferenceResponse])
+def get_job_preferences(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    return profile.preference
+
+
+@router.put("/preferences", response_model=JobPreferenceResponse)
+def update_job_preferences(
+    pref_in: JobPreferenceUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    pref = profile.preference
+    if not pref:
+        pref = JobPreferenceRecord(profile_id=profile.id, **pref_in.model_dump(exclude_unset=True))
+        db.add(pref)
+    else:
+        for field, val in pref_in.model_dump(exclude_unset=True).items():
+            setattr(pref, field, val)
+    db.commit()
+    db.refresh(pref)
+    return pref
+
+
+# --- Screening Questions & Saved Answers ---
+
+@router.get("/saved-answers", response_model=List[SavedAnswerResponse])
+def get_saved_answers(
+    company: Optional[str] = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    query = db.query(SavedAnswerRecord).filter(SavedAnswerRecord.profile_id == profile.id)
+    if company:
+        query = query.filter(
+            (SavedAnswerRecord.company == company) | (SavedAnswerRecord.company == None) | (SavedAnswerRecord.company == "")
+        )
+    return query.all()
+
+
+@router.post("/saved-answers", response_model=SavedAnswerResponse, status_code=status.HTTP_201_CREATED)
+def add_saved_answer(
+    ans_in: SavedAnswerCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    # Check if this question key for this company already exists, update if so
+    existing = db.query(SavedAnswerRecord).filter(
+        SavedAnswerRecord.profile_id == profile.id,
+        SavedAnswerRecord.question_key == ans_in.question_key,
+        SavedAnswerRecord.company == ans_in.company
+    ).first()
+
+    if existing:
+        existing.question_text = ans_in.question_text
+        existing.answer = ans_in.answer
+        existing.input_type = ans_in.input_type or existing.input_type
+        db.commit()
+        db.refresh(existing)
+        return existing
+
+    ans = SavedAnswerRecord(profile_id=profile.id, **ans_in.model_dump())
+    db.add(ans)
+    db.commit()
+    db.refresh(ans)
+    return ans
+
+
+@router.put("/saved-answers/{answer_id}", response_model=SavedAnswerResponse)
+def update_saved_answer(
+    answer_id: int,
+    ans_in: SavedAnswerUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    ans = db.query(SavedAnswerRecord).filter(
+        SavedAnswerRecord.id == answer_id,
+        SavedAnswerRecord.profile_id == profile.id
+    ).first()
+    if not ans:
+        raise HTTPException(status_code=404, detail="Saved answer not found.")
+
+    for field, val in ans_in.model_dump(exclude_unset=True).items():
+        setattr(ans, field, val)
+    db.commit()
+    db.refresh(ans)
+    return ans
+
+
+@router.delete("/saved-answers/{answer_id}")
+def delete_saved_answer(
+    answer_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    profile = get_or_create_profile(current_user, db)
+    ans = db.query(SavedAnswerRecord).filter(
+        SavedAnswerRecord.id == answer_id,
+        SavedAnswerRecord.profile_id == profile.id
+    ).first()
+    if not ans:
+        raise HTTPException(status_code=404, detail="Saved answer not found.")
+    db.delete(ans)
+    db.commit()
+    return {"message": "Saved answer deleted."}
+

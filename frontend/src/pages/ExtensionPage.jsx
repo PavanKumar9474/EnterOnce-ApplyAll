@@ -84,6 +84,18 @@ export default function ExtensionPage({ user, addToast }) {
       title: 'Form 5: Dynamic SPA Framework',
       desc: 'Simulates React/Vue dynamic form rendering with delayed field injection',
       filename: 'form5_dynamic_framework.html'
+    },
+    {
+      id: 'form6',
+      title: 'Form 6: Multi-Record Repeated Sections',
+      desc: 'Dynamic "+ Add Another Education" and "+ Add Another Experience" multi-record expansion',
+      filename: 'form6_repeated_sections.html'
+    },
+    {
+      id: 'form7',
+      title: 'Form 7: Enterprise Screening & Questions',
+      desc: 'IBM style portal with visa sponsorship, notice period, and "Answer Needed" workflow',
+      filename: 'form7_enterprise_screening.html'
     }
   ];
 

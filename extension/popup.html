@@ -11,7 +11,7 @@
     <!-- Header -->
     <header class="header">
       <div class="logo">
-        <span class="logo-icon">⚡</span>
+        <span class="logo-icon">&#9889;</span>
         <div>
           <h2>ApplyOnce</h2>
           <span class="tagline">Universal Autofill</span>
@@ -24,26 +24,54 @@
     <section class="profile-card">
       <div class="profile-avatar" id="avatar-initial">A</div>
       <div class="profile-info">
-        <h4 id="profile-name">Alex Taylor</h4>
-        <p id="profile-email">alex.taylor@example.com</p>
-        <span class="profile-role" id="profile-role">Senior Software Engineer</span>
+        <h4 id="profile-name">Not connected</h4>
+        <p id="profile-email">Open dashboard to connect</p>
+        <span class="profile-role" id="profile-role">Candidate</span>
       </div>
     </section>
 
-    <!-- Main Action Button -->
-    <button class="autofill-btn" id="autofill-btn">
-      <span class="btn-icon">⚡</span>
-      <span id="btn-text">Autofill Current Page</span>
-    </button>
+    <!-- Main Action Buttons -->
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <button class="autofill-btn" id="autofill-btn">
+        <span class="btn-icon">&#9889;</span>
+        <span id="btn-text">Autofill Current Page</span>
+      </button>
+      <button class="autofill-btn" id="preview-btn" style="background: #1e293b; border: 1px solid rgba(99, 102, 241, 0.5); color: #a5b4fc; box-shadow: none;">
+        <span class="btn-icon">&#128269;</span>
+        <span id="preview-btn-text">Preview & Review Matches</span>
+      </button>
+    </div>
 
     <div class="status-msg" id="status-msg">
-      Click above to populate application fields on this tab.
+      Click above to populate application fields or preview proposed values.
+    </div>
+
+    <!-- Token Connection Section -->
+    <div class="token-section" id="token-section">
+      <div class="token-label">Connect Account (paste token from dashboard):</div>
+      <div class="token-input-row">
+        <input
+          type="password"
+          id="token-input"
+          class="token-input"
+          placeholder="ao_ext_..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button class="connect-btn" id="connect-btn">Connect</button>
+      </div>
     </div>
 
     <!-- Footer Links -->
     <footer class="footer">
+      <button class="link-btn" id="sync-btn">
+        <span>&#8635; Sync Profile</span>
+      </button>
       <button class="link-btn" id="open-dashboard-btn">
-        <span>🌐 Open Web Dashboard</span>
+        <span>&#127760; Open Dashboard</span>
+      </button>
+      <button class="link-btn link-btn-danger" id="disconnect-btn" style="display:none;">
+        <span>&#10007; Disconnect</span>
       </button>
     </footer>
   </div>

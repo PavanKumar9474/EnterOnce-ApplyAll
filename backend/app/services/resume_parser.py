@@ -1,4 +1,7 @@
+import io
 import re
+import zipfile
+import xml.etree.ElementTree as ET
 from typing import Dict, Any, List, Optional
 import fitz  # PyMuPDF
 
@@ -12,6 +15,37 @@ def extract_text_from_pdf(pdf_bytes: bytes) -> str:
         for page in doc:
             text_content.append(page.get_text())
     return "\n".join(text_content)
+
+
+def extract_text_from_docx(docx_bytes: bytes) -> str:
+    """
+    Extracts text from DOCX bytes using zipfile and xml parsing.
+    """
+    text_content = []
+    try:
+        with io.BytesIO(docx_bytes) as stream:
+            with zipfile.ZipFile(stream) as z:
+                if "word/document.xml" in z.namelist():
+                    xml_content = z.read("word/document.xml")
+                    tree = ET.fromstring(xml_content)
+                    namespaces = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
+                    for p in tree.findall(".//w:p", namespaces):
+                        texts = [node.text for node in p.findall(".//w:t", namespaces) if node.text]
+                        if texts:
+                            text_content.append("".join(texts))
+    except Exception as e:
+        text_content.append(f"Error extracting DOCX: {e}")
+    return "\n".join(text_content)
+
+
+def extract_text_from_file(file_bytes: bytes, filename: str) -> str:
+    """
+    Extracts text from PDF or DOCX resume files.
+    """
+    fn = filename.lower()
+    if fn.endswith(".docx") or fn.endswith(".doc"):
+        return extract_text_from_docx(file_bytes)
+    return extract_text_from_pdf(file_bytes)
 
 
 def parse_resume_text(text: str) -> Dict[str, Any]:

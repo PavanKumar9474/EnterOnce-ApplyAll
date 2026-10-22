@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { X, Lock, Mail, User, Sparkles } from 'lucide-react';
 
-export default function AuthModal({ isOpen, onClose, onLogin, onRegister, onQuickDemoLogin }) {
+export default function AuthModal({ isOpen, onClose, onLogin, onRegister, onQuickDemoLogin, initialMode = 'login' }) {
   if (!isOpen) return null;
 
-  const [mode, setMode] = useState('login'); // 'login' or 'register'
+  const [mode, setMode] = useState(initialMode); // 'login' or 'register'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  React.useEffect(() => {
+    setMode(initialMode || 'login');
+    setError('');
+  }, [initialMode, isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
