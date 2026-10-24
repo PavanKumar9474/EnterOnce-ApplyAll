@@ -315,7 +315,7 @@ export default function ExtensionPage({ user, addToast }) {
             </p>
           </div>
           <a
-            href="http://localhost:5173/test-fixtures/application-forms/index.html"
+            href="/test-fixtures/application-forms/index.html"
             target="_blank"
             rel="noreferrer"
             className="btn btn-secondary"

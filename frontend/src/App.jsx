@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
+import CommandPalette from './components/CommandPalette';
 import LandingPage from './pages/LandingPage';
 import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
@@ -17,7 +18,20 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('landing');
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [toasts, setToasts] = useState([]);
+
+  // Global Ctrl+K / Cmd+K shortcut listener
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setCommandPaletteOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   // Toast notification helper
   const addToast = useCallback((message, type = 'info') => {
@@ -346,6 +360,7 @@ export default function App() {
         }}
         onLogout={handleLogout}
         onQuickDemoLogin={handleQuickDemoLogin}
+        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
       />
 
       {/* ── Main View Router ── */}
@@ -418,6 +433,23 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* ── Global Command Palette (Ctrl+K) ── */}
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+        onNavigate={(tab) => {
+          setActiveTab(tab);
+          setCommandPaletteOpen(false);
+        }}
+        user={user}
+        onQuickDemoLogin={handleQuickDemoLogin}
+        onLogout={handleLogout}
+        onGenerateToken={() => {
+          setActiveTab('extension');
+          setCommandPaletteOpen(false);
+        }}
+      />
 
       {/* ── Authentication Modal ── */}
       <AuthModal

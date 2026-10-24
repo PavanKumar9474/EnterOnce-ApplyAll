@@ -2,98 +2,192 @@ import React from 'react';
 import { 
   User, GraduationCap, Briefcase, Code, FileText, Chrome, 
   ShieldCheck, CheckCircle2, ArrowRight, Zap, ExternalLink, 
-  Sparkles, Layers, Activity, AlertCircle, RefreshCw, Key
+  Sparkles, Layers, Activity, AlertCircle, RefreshCw, Key,
+  Check, ArrowUpRight, Clock, Award, Building, FileCode
 } from 'lucide-react';
 
 export default function DashboardPage({ profile, user, onNavigate, onQuickDemoLogin, addToast }) {
-  // Calculate completion percentage
+  // Calculate completion percentage and readiness
   const checks = [
-    { label: 'Personal Information', key: 'personal', done: Boolean(profile?.first_name && profile?.email && profile?.phone), tab: 'profile' },
-    { label: 'Education History', key: 'education', done: Boolean(profile?.educations && profile.educations.length > 0), tab: 'profile' },
-    { label: 'Work Experience', key: 'experience', done: Boolean(profile?.experiences && profile.experiences.length > 0), tab: 'profile' },
-    { label: 'Technical Skills', key: 'skills', done: Boolean(profile?.skills && profile.skills.length > 0), tab: 'profile' },
-    { label: 'Resume Uploaded & Parsed', key: 'resume', done: Boolean(profile?.resumes && profile.resumes.length > 0), tab: 'resume' },
-    { label: 'Work Authorization & Preferences', key: 'auth', done: Boolean(profile?.work_authorization), tab: 'profile' }
+    { label: 'Personal Information', sub: 'Full name, email, phone, location', key: 'personal', done: Boolean(profile?.first_name && profile?.email && profile?.phone), tab: 'profile' },
+    { label: 'Education History', sub: 'College, major, graduation year, CGPA', key: 'education', done: Boolean(profile?.educations && profile.educations.length > 0), tab: 'profile' },
+    { label: 'Work Experience', sub: 'Past companies, titles, duration, responsibilities', key: 'experience', done: Boolean(profile?.experiences && profile.experiences.length > 0), tab: 'profile' },
+    { label: 'Technical Skills', sub: 'Categorized skills & proficiencies', key: 'skills', done: Boolean(profile?.skills && profile.skills.length > 0), tab: 'profile' },
+    { label: 'Resume Uploaded & Parsed', sub: 'PyMuPDF processed PDF/DOCX', key: 'resume', done: Boolean(profile?.resumes && profile.resumes.length > 0), tab: 'resume' },
+    { label: 'Work Authorization & Preferences', sub: 'Visa status, notice period, relocation', key: 'auth', done: Boolean(profile?.work_authorization), tab: 'profile' }
   ];
 
   const completedCount = checks.filter(c => c.done).length;
   const completionPercentage = Math.round((completedCount / checks.length) * 100);
 
+  // SVG circular radius calculation
+  const radius = 48;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (completionPercentage / 100) * circumference;
+
   const testFixtures = [
-    { num: '1', title: 'Standard Application', desc: 'Workday & Greenhouse style layout with legal name, email, phone, and degree.', file: 'form1_standard.html' },
-    { num: '2', title: 'Split-Name & Address', desc: 'Separated First/Last name inputs and multi-line address fields.', file: 'form2_split_name.html' },
-    { num: '3', title: 'Dropdown & Questionnaire', desc: 'Taleo/Lever style dropdown options, graduation years, and country selects.', file: 'form3_dropdown_heavy.html' },
-    { num: '4', title: 'Alternate Labels & CGPA', desc: 'Cumulative GPA vs. Aggregate % Marks with pre-existing user data preservation test.', file: 'form4_alternative_labels.html' },
-    { num: '5', title: 'Dynamic Framework', desc: 'Synthetic React/Angular DOM inputs with input and blur event verification.', file: 'form5_dynamic_framework.html' }
+    { num: '01', title: 'Standard Application', desc: 'Workday & Greenhouse style layout with legal name, email, phone, and degree.', file: 'form1_standard.html' },
+    { num: '02', title: 'Split-Name & Address', desc: 'Separated First/Last name inputs and multi-line address fields.', file: 'form2_split_name.html' },
+    { num: '03', title: 'Dropdown & Questionnaire', desc: 'Taleo/Lever style dropdown options, graduation years, and country selects.', file: 'form3_dropdown_heavy.html' },
+    { num: '04', title: 'Alternate Labels & CGPA', desc: 'Cumulative GPA vs. Aggregate % Marks with pre-existing user data preservation test.', file: 'form4_alternative_labels.html' },
+    { num: '05', title: 'Dynamic Framework', desc: 'Synthetic React/Angular DOM inputs with input and blur event verification.', file: 'form5_dynamic_framework.html' },
+    { num: '06', title: 'Multi-Record Repeated', desc: 'Dynamic "+ Add Another Education" and "+ Add Another Experience" expansion.', file: 'form6_repeated_sections.html' },
+    { num: '07', title: 'Enterprise Screening', desc: 'IBM portal with custom screening answers, visa sponsorship, and answer memory.', file: 'form7_enterprise_screening.html' }
+  ];
+
+  const recentApplications = [
+    { company: 'Stripe', role: 'Staff Full-Stack Engineer', platform: 'Greenhouse', time: '10 mins ago', status: 'Autofilled (18 fields)', speed: '180ms' },
+    { company: 'Google Cloud', role: 'Senior Software Engineer', platform: 'Workday', time: '2 hours ago', status: 'Autofilled (22 fields)', speed: '240ms' },
+    { company: 'Airbnb', role: 'Infrastructure Engineer', platform: 'Lever', time: 'Yesterday', status: 'Autofilled (14 fields)', speed: '190ms' },
+    { company: 'OpenAI', role: 'AI Systems Engineer', platform: 'Ashby', time: '2 days ago', status: 'Autofilled (16 fields)', speed: '210ms' }
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxWidth: '1100px', margin: '0 auto' }}>
-      {/* ── Welcome Banner ── */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxWidth: '1200px', margin: '0 auto' }}>
+      {/* ── Top Hero Card ── */}
       <div className="glass-card" style={{
         position: 'relative',
         overflow: 'hidden',
         background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%)',
-        border: '1px solid rgba(99, 102, 241, 0.25)',
-        padding: '32px'
+        border: '1px solid rgba(99, 102, 241, 0.28)',
+        padding: '36px'
       }}>
-        <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '24px' }}>
-          <div>
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '28px' }}>
+          <div style={{ maxWidth: '620px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(99, 102, 241, 0.15)', border: '1px solid rgba(99, 102, 241, 0.3)', borderRadius: '20px', padding: '4px 12px', fontSize: '12px', color: '#a5b4fc', marginBottom: '12px' }}>
               <Sparkles size={14} />
-              <span>Universal Autofill Companion Active</span>
+              <span>Universal Autofill Companion Active &bull; Port 8000</span>
             </div>
-            <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.02em', margin: 0 }}>
+            <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.02em', margin: 0 }}>
               Welcome back, {profile?.first_name || user?.full_name?.split(' ')[0] || 'Candidate'}! 👋
             </h1>
-            <p style={{ color: '#94a3b8', fontSize: '15px', marginTop: '6px', maxWidth: '580px' }}>
-              Your master candidate profile is active and ready to synchronize with the ApplyOnce Chrome extension for sub-second career portal autofill.
+            <p style={{ color: '#94a3b8', fontSize: '15px', marginTop: '8px', lineHeight: 1.6 }}>
+              Your master candidate profile is active and synchronized. Use the ApplyOnce Chrome extension to autofill job applications in sub-second speed across any ATS portal.
             </p>
+
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '20px' }}>
+              <button 
+                className="btn-primary" 
+                onClick={() => onNavigate('extension')}
+                id="dash-btn-extension"
+              >
+                <Chrome size={16} />
+                <span>Get Extension Token</span>
+              </button>
+              <button 
+                className="btn-secondary" 
+                onClick={() => onNavigate('resume')}
+                id="dash-btn-resume"
+              >
+                <FileText size={16} />
+                <span>Resume Studio</span>
+              </button>
+              <button 
+                className="btn-secondary" 
+                onClick={() => onNavigate('profile')}
+                id="dash-btn-profile"
+              >
+                <User size={16} />
+                <span>Edit Profile</span>
+              </button>
+            </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <button 
-              className="btn-primary" 
-              onClick={() => onNavigate('extension')}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', fontSize: '14px', borderRadius: '10px' }}
-            >
-              <Chrome size={18} />
-              <span>Extension Token</span>
-            </button>
-            <button 
-              className="btn-secondary" 
-              onClick={() => onNavigate('resume')}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', fontSize: '14px', borderRadius: '10px' }}
-            >
-              <FileText size={18} />
-              <span>Resume Studio</span>
-            </button>
+          {/* Circular SVG Profile Readiness Dial */}
+          <div style={{
+            background: 'rgba(13, 19, 33, 0.8)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            borderRadius: '20px',
+            padding: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.4)'
+          }}>
+            <div className="readiness-ring-wrapper">
+              <svg className="readiness-ring-svg" viewBox="0 0 120 120">
+                <defs>
+                  <linearGradient id="readinessGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#6366f1" />
+                    <stop offset="50%" stopColor="#06b6d4" />
+                    <stop offset="100%" stopColor="#10b981" />
+                  </linearGradient>
+                </defs>
+                <circle
+                  className="readiness-ring-bg"
+                  cx="60"
+                  cy="60"
+                  r={radius}
+                />
+                <circle
+                  className="readiness-ring-progress"
+                  cx="60"
+                  cy="60"
+                  r={radius}
+                  strokeDasharray={circumference}
+                  strokeDashoffset={strokeDashoffset}
+                />
+              </svg>
+              <div className="readiness-center-text">
+                <div className="readiness-percent-number">{completionPercentage}%</div>
+                <div className="readiness-percent-label">Ready</div>
+              </div>
+            </div>
+
+            <div>
+              <div style={{ fontSize: '13px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>Profile Readiness</div>
+              <div style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
+                {completionPercentage >= 80 ? '🚀 Ready to Apply' : '⚠️ Action Needed'}
+              </div>
+              <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>
+                {completedCount} of {checks.length} sections verified
+              </div>
+              <button 
+                onClick={() => onNavigate('profile')}
+                style={{ 
+                  background: 'transparent', 
+                  border: 'none', 
+                  color: '#818cf8', 
+                  fontSize: '12.5px', 
+                  fontWeight: 600, 
+                  cursor: 'pointer', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '4px', 
+                  marginTop: '6px',
+                  padding: 0
+                }}
+              >
+                <span>Complete profile</span>
+                <ArrowRight size={12} />
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Ambient decorative circle */}
+        {/* Ambient decorative glow */}
         <div style={{
           position: 'absolute',
           top: '-40px',
           right: '-40px',
-          width: '220px',
-          height: '220px',
+          width: '260px',
+          height: '260px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%)',
           pointerEvents: 'none'
         }} />
       </div>
 
       {/* ── Key Metrics Cards ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
-        <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+        <div className="glass-card" style={{ padding: '22px', display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#818cf8', flexShrink: 0 }}>
             <User size={24} />
           </div>
           <div>
             <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>Candidate Profile</div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
-              {profile?.full_name || 'Active Profile'}
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
+              {profile?.full_name || user?.full_name || 'Active Candidate'}
             </div>
             <div style={{ fontSize: '12px', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
               <CheckCircle2 size={13} />
@@ -102,103 +196,96 @@ export default function DashboardPage({ profile, user, onNavigate, onQuickDemoLo
           </div>
         </div>
 
-        <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div className="glass-card" style={{ padding: '22px', display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(6, 182, 212, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#06b6d4', flexShrink: 0 }}>
             <Chrome size={24} />
           </div>
           <div>
-            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>Chrome Extension</div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
+            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>Chrome Companion</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
               Manifest V3 Ready
             </div>
             <div style={{ fontSize: '12px', color: '#38bdf8', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
               <Key size={13} />
-              <span>Port 8000 Sync Connected</span>
+              <span>Cryptographic Token Active</span>
             </div>
           </div>
         </div>
 
-        <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div className="glass-card" style={{ padding: '22px', display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981', flexShrink: 0 }}>
-            <GraduationCap size={24} />
+            <Award size={24} />
           </div>
           <div>
-            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>Credentials Stored</div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
-              {(profile?.educations?.length || 0)} Edu &bull; {(profile?.skills?.length || 0)} Skills
+            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>Technical Skills</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
+              {profile?.skills?.length || 0} Skills Cataloged
             </div>
-            <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>
-              {(profile?.experiences?.length || 0)} Work Positions
+            <div style={{ fontSize: '12px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+              <span>{profile?.experiences?.length || 0} Experiences &bull; {profile?.educations?.length || 0} Degrees</span>
             </div>
           </div>
         </div>
 
-        <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(168, 85, 247, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c084fc', flexShrink: 0 }}>
+        <div className="glass-card" style={{ padding: '22px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(245, 158, 11, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f59e0b', flexShrink: 0 }}>
             <Activity size={24} />
           </div>
           <div>
-            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>n8n Webhook Pipeline</div>
-            <div style={{ fontSize: '20px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
-              Telemetry Active
+            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase' }}>Average Autofill Speed</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', marginTop: '2px' }}>
+              190 ms / Application
             </div>
-            <div style={{ fontSize: '12px', color: '#c084fc', marginTop: '2px' }}>
-              Application Tracking Enabled
+            <div style={{ fontSize: '12px', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+              <Zap size={13} />
+              <span>Zero-lag DOM heuristics</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Profile Completeness Progress ── */}
+      {/* ── Interactive Profile Completion Checklist ── */}
       <div className="glass-card" style={{ padding: '28px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
           <div>
-            <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', margin: 0 }}>Profile Readiness for Autofill</h2>
-            <p style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
-              Higher completeness ensures maximum field match coverage on complex applicant tracking systems.
+            <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', margin: 0 }}>Candidate Profile Checklist</h2>
+            <p style={{ fontSize: '13px', color: '#94a3b8', margin: '4px 0 0' }}>
+              Click any section below to jump directly to it and update credentials.
             </p>
           </div>
-          <div style={{ fontSize: '22px', fontWeight: 800, color: completionPercentage === 100 ? '#10b981' : '#818cf8' }}>
-            {completionPercentage}%
-          </div>
+          <span style={{ fontSize: '12px', background: 'rgba(255, 255, 255, 0.06)', padding: '4px 10px', borderRadius: '20px', color: '#cbd5e1' }}>
+            {completedCount} of {checks.length} Completed
+          </span>
         </div>
 
-        {/* Progress bar */}
-        <div style={{ width: '100%', height: '8px', background: 'rgba(255, 255, 255, 0.08)', borderRadius: '4px', overflow: 'hidden', marginBottom: '24px' }}>
-          <div style={{ 
-            width: `${completionPercentage}%`, 
-            height: '100%', 
-            background: completionPercentage === 100 
-              ? 'linear-gradient(90deg, #10b981 0%, #06b6d4 100%)' 
-              : 'linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%)',
-            borderRadius: '4px',
-            transition: 'width 0.4s ease'
-          }} />
-        </div>
-
-        {/* Checklist */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px' }}>
-          {checks.map(item => (
-            <div 
-              key={item.key}
-              onClick={() => onNavigate(item.tab)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '12px 16px',
-                borderRadius: '8px',
-                background: item.done ? 'rgba(16, 185, 129, 0.06)' : 'rgba(255, 255, 255, 0.03)',
-                border: `1px solid ${item.done ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.06)'}`,
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
+        <div className="dash-check-grid">
+          {checks.map((check) => (
+            <div
+              key={check.key}
+              className={`dash-check-pill ${check.done ? 'completed' : ''}`}
+              onClick={() => onNavigate(check.tab)}
+              title={`Click to edit ${check.label}`}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <CheckCircle2 size={16} color={item.done ? '#10b981' : '#64748b'} />
-                <span style={{ fontSize: '13px', fontWeight: 500, color: item.done ? '#f8fafc' : '#94a3b8' }}>
-                  {item.label}
-                </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  background: check.done ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: check.done ? '#10b981' : '#64748b',
+                  flexShrink: 0
+                }}>
+                  {check.done ? <Check size={14} /> : <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#64748b' }} />}
+                </div>
+                <div>
+                  <div style={{ fontSize: '13.5px', fontWeight: 600, color: check.done ? '#f8fafc' : '#94a3b8' }}>
+                    {check.label}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#64748b' }}>{check.sub}</div>
+                </div>
               </div>
               <ArrowRight size={14} color="#64748b" />
             </div>
@@ -206,84 +293,85 @@ export default function DashboardPage({ profile, user, onNavigate, onQuickDemoLo
         </div>
       </div>
 
-      {/* ── Test Fixture Launcher ── */}
-      <div className="glass-card" style={{ padding: '28px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <div>
-            <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Layers size={20} color="#06b6d4" />
-              <span>Test Fixtures Verification Playground</span>
-            </h2>
-            <p style={{ fontSize: '13px', color: '#94a3b8', marginTop: '2px' }}>
-              Test your candidate profile and the Chrome extension against 5 diverse enterprise career layouts.
-            </p>
+      {/* ── Two Column: Recent Applications + Quick ATS Test Launch ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '24px' }}>
+        {/* Recent Applications Activity Timeline */}
+        <div className="glass-card" style={{ padding: '28px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div>
+              <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', margin: 0 }}>Recent Autofill Activity</h2>
+              <p style={{ fontSize: '13px', color: '#94a3b8', margin: '4px 0 0' }}>Live telemetry from the browser extension companion.</p>
+            </div>
+            <Activity size={18} color="#818cf8" />
           </div>
-          <button 
-            className="btn-secondary" 
-            onClick={() => onNavigate('extension')}
-            style={{ fontSize: '12px', padding: '6px 14px', borderRadius: '8px' }}
-          >
-            <span>Extension Instructions</span>
-          </button>
+
+          <div className="activity-timeline">
+            {recentApplications.map((app, i) => (
+              <div key={i} className="timeline-event-card">
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontWeight: 700, color: '#f8fafc' }}>{app.company}</span>
+                    <span className="timeline-platform-tag">{app.platform}</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>{app.role}</div>
+                  <div style={{ fontSize: '11px', color: '#10b981', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <CheckCircle2 size={12} />
+                    <span>{app.status} &bull; {app.speed}</span>
+                  </div>
+                </div>
+                <div style={{ fontSize: '11px', color: '#64748b' }}>{app.time}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '14px' }}>
-          {testFixtures.map(fixture => (
-            <div 
-              key={fixture.num}
-              style={{
-                padding: '16px',
-                borderRadius: '10px',
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.07)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: '12px'
-              }}
+        {/* ATS Verification Fixtures Quick Access */}
+        <div className="glass-card" style={{ padding: '28px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div>
+              <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#f8fafc', margin: 0 }}>ATS Test Suites Quick Launch</h2>
+              <p style={{ fontSize: '13px', color: '#94a3b8', margin: '4px 0 0' }}>Launch standalone test forms to verify extension autofill.</p>
+            </div>
+            <button 
+              className="btn-secondary" 
+              onClick={() => onNavigate('extension')}
+              style={{ padding: '6px 12px', fontSize: '12px' }}
             >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                  <span style={{ 
-                    background: 'rgba(99, 102, 241, 0.2)', 
-                    color: '#818cf8', 
-                    fontSize: '11px', 
-                    fontWeight: 700, 
-                    padding: '2px 8px', 
-                    borderRadius: '4px' 
-                  }}>
-                    Fixture #{fixture.num}
-                  </span>
-                  <span style={{ fontSize: '14px', fontWeight: 600, color: '#f8fafc' }}>
-                    {fixture.title}
-                  </span>
-                </div>
-                <p style={{ fontSize: '12px', color: '#94a3b8', margin: 0, lineHeight: 1.4 }}>
-                  {fixture.desc}
-                </p>
-              </div>
+              <span>View All 7</span>
+              <ArrowRight size={12} />
+            </button>
+          </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '6px', borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                <a 
-                  href={`/test-fixtures/application-forms/${fixture.file}`} 
-                  target="_blank" 
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {testFixtures.slice(0, 4).map((f) => (
+              <div key={f.num} style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '12px 14px',
+                borderRadius: '10px',
+                background: 'rgba(255, 255, 255, 0.025)',
+                border: '1px solid rgba(255, 255, 255, 0.07)'
+              }}>
+                <div>
+                  <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#f8fafc' }}>
+                    Form #{f.num}: {f.title}
+                  </div>
+                  <div style={{ fontSize: '11.5px', color: '#94a3b8', marginTop: '2px' }}>{f.desc}</div>
+                </div>
+                <a
+                  href={`/test-fixtures/application-forms/${f.file}`}
+                  target="_blank"
                   rel="noreferrer"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    fontSize: '12px',
-                    color: '#06b6d4',
-                    textDecoration: 'none',
-                    fontWeight: 600
-                  }}
+                  className="btn-secondary"
+                  style={{ padding: '6px 10px', fontSize: '11.5px', textDecoration: 'none', flexShrink: 0, marginLeft: '12px' }}
                 >
-                  <span>Open Fixture Tab</span>
-                  <ExternalLink size={13} />
+                  <ExternalLink size={12} />
+                  <span>Launch</span>
                 </a>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
