@@ -135,7 +135,20 @@ We provide 7 specialized test fixtures simulating real ATS layouts:
 
 ---
 
-## Automation (n8n)
+## Deploying to Vercel
 
-See [`automation/README.md`](file:///c:/Users/Admin/Desktop/EnterOnceApplyAll/automation/README.md) for workflow diagrams, payload schemas, and n8n import instructions.
+The frontend is fully configured for zero-config deployment to [Vercel](https://vercel.com):
+
+### Option A: Deploy from Monorepo Root (Recommended)
+1. Push your repository to GitHub.
+2. In Vercel, click **"Add New..."** &rarr; **Project** and select this repository.
+3. Keep **Root Directory** as `./` (the root [`vercel.json`](file:///c:/Users/Admin/Desktop/EnterOnceApplyAll/vercel.json) will automatically build `frontend` and route client-side traffic).
+4. Under **Environment Variables**, add:
+   - `VITE_API_URL`: The public HTTPS URL of your deployed FastAPI backend (e.g., `https://your-api.onrender.com`).
+5. Click **Deploy**.
+
+### Option B: Deploy with Root Directory set to `frontend`
+1. In Vercel, when importing the project, edit the **Root Directory** setting to `frontend`.
+2. The included [`frontend/vercel.json`](file:///c:/Users/Admin/Desktop/EnterOnceApplyAll/frontend/vercel.json) will automatically handle Single-Page Application (SPA) routing.
+3. Add `VITE_API_URL` under Environment Variables and click **Deploy**.
 

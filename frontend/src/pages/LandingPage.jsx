@@ -4,6 +4,7 @@ import {
   CheckCircle, Play, Eye, ExternalLink, RefreshCw, Cpu, 
   Lock, Activity, ChevronRight, HelpCircle, Layers, Check
 } from 'lucide-react';
+import { API_ROOT } from '../services/api';
 
 export default function LandingPage({ onOpenAuth, onQuickDemoLogin, onGoToDashboard, user, onNavigate }) {
   const [simulatedFields, setSimulatedFields] = useState({
@@ -23,7 +24,7 @@ export default function LandingPage({ onOpenAuth, onQuickDemoLogin, onGoToDashbo
   const [apiOnline, setApiOnline] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8000/health')
+    fetch(`${API_ROOT}/health`)
       .then(r => r.ok ? setApiOnline(true) : setApiOnline(false))
       .catch(() => setApiOnline(false));
   }, []);
@@ -569,14 +570,14 @@ export default function LandingPage({ onOpenAuth, onQuickDemoLogin, onGoToDashbo
             </div>
           </div>
           <div className="footer-links">
-            <a href="http://localhost:8000/docs" target="_blank" rel="noreferrer" className="footer-link">
+            <a href={`${API_ROOT}/docs`} target="_blank" rel="noreferrer" className="footer-link">
               <ExternalLink size={13} />
               <span>FastAPI Swagger Docs</span>
             </a>
             <span className="footer-sep">&bull;</span>
             <span className="footer-status">
               <span className={`status-dot ${apiOnline ? 'online' : 'offline'}`} />
-              Backend: {apiOnline ? 'Online (8000)' : 'Offline'}
+              Backend: {apiOnline ? 'Online' : 'Offline'}
             </span>
           </div>
           <div className="footer-copy">

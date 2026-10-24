@@ -2,7 +2,8 @@
  * ApplyOnce Web App - Centralized API Service
  */
 
-const API_BASE = 'http://localhost:8000/api/v1';
+export const API_ROOT = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/+$/, '');
+export const API_BASE = `${API_ROOT}/api/v1`;
 
 function getToken() {
   return localStorage.getItem('ao_auth_token');
@@ -70,7 +71,9 @@ export const api = {
     getMe: () => request('/auth/me'),
     logout: async () => {
       try {
-        await request('/auth/logout', { method: 'POST' });
+        await request('/auth/logout', { method: 'POST' }).catch(() => {});
+      } catch {
+        // Ignore logout errors if session is already expired/cleared
       } finally {
         setToken(null);
       }

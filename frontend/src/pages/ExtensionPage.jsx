@@ -3,7 +3,7 @@ import {
   Chrome, Key, Copy, Check, ExternalLink, ShieldCheck, 
   Sparkles, Layers, PlayCircle, RefreshCw, AlertCircle, FileCode
 } from 'lucide-react';
-import { api } from '../services/api';
+import { api, API_ROOT } from '../services/api';
 
 export default function ExtensionPage({ user, addToast }) {
   const [tokenData, setTokenData] = useState(null);
@@ -18,7 +18,7 @@ export default function ExtensionPage({ user, addToast }) {
   const checkBackend = async () => {
     setBackendStatus('checking');
     try {
-      const res = await fetch('http://localhost:8000/health');
+      const res = await fetch(`${API_ROOT}/health`);
       if (res.ok) {
         setBackendStatus('online');
       } else {

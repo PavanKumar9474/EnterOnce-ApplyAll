@@ -4,11 +4,13 @@ import {
   CheckCircle, Sparkles, LayoutDashboard, Home, Zap
 } from 'lucide-react';
 
+import { API_ROOT } from '../services/api';
+
 export default function Navbar({ activeTab, setActiveTab, user, onOpenAuth, onLogout, onQuickDemoLogin }) {
   const [backendOnline, setBackendOnline] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8000/health')
+    fetch(`${API_ROOT}/health`)
       .then(res => res.ok ? setBackendOnline(true) : setBackendOnline(false))
       .catch(() => setBackendOnline(false));
   }, []);

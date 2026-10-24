@@ -3,7 +3,7 @@ import {
   Shield, Download, Trash2, Database, Key, Server, 
   CheckCircle, AlertTriangle, RefreshCw, Lock, FileJson
 } from 'lucide-react';
-import { api } from '../services/api';
+import { api, API_BASE } from '../services/api';
 
 export default function SettingsPage({ user, onLogout, addToast }) {
   const [exporting, setExporting] = useState(false);
@@ -93,7 +93,7 @@ export default function SettingsPage({ user, onLogout, addToast }) {
           <div>
             <div className="form-label">Backend API Endpoint</div>
             <div style={{ color: '#34d399', fontSize: '13px', fontFamily: 'monospace' }}>
-              http://localhost:8000/api/v1
+              {API_BASE}
             </div>
           </div>
         </div>
