@@ -119,7 +119,6 @@ Different websites use different form structures, so some may require additional
 📝 5. Review Before Submission
 
 Candidates remain in control of their applications.
-
 Users can review autofilled values, correct mistakes, complete missing fields, and submit applications manually.
 
 🧩 6. Convenient Browser Interface
